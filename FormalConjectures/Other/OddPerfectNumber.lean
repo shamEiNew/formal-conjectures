@@ -21,7 +21,7 @@ import FormalConjectures.Util.ProblemImports
 
 *Reference:* [Wikipedia](https://en.wikipedia.org/wiki/Perfect_number#Odd_perfect_numbers)
 
-The Odd Perfect Number Conjecture states that there are no odd perfect numbers.
+The Odd Perfect Number Conjecture states that all perfect numbers are even.
 A perfect number is a positive integer that equals the sum of its proper divisors
 (i.e., all its positive divisors excluding the number itself).
 
@@ -35,17 +35,11 @@ there are no odd perfect numbers.
 open Nat
 
 /--
-A number is perfect if it equals the sum of its proper divisors.
--/
-def IsPerfect (n : ℕ) : Prop :=
-  n > 0 ∧ ∑ d ∈ n.properDivisors, d = n
-
-/--
-The Odd Perfect Number Conjecture states that there are no odd perfect numbers.
+The Odd Perfect Number Conjecture states that all perfect numbers are even.
 -/
 @[category research open, AMS 11]
 theorem odd_perfect_number_conjecture :
-    ¬∃ n, Odd n ∧ IsPerfect n := by
+    ∀ n, Perfect n → Even n := by
   sorry
 
 /--
@@ -55,7 +49,7 @@ and must have at least 101 prime factors (including multiplicities).
 Reference: Pascal Ochem, Michaël Rao (2012). "Odd perfect numbers are greater than 10^1500"
 -/
 @[category research solved, AMS 11]
-theorem odd_perfect_number.lower_bound (n : ℕ) (hn : Odd n) (hp : IsPerfect n) :
+theorem odd_perfect_number.lower_bound (n : ℕ) (hn : Odd n) (hp : Perfect n) :
     n > 10^1500 ∧ (n.primeFactors).card ≥ 101 := by
   sorry
 
@@ -66,7 +60,7 @@ p^α * m^2 where p is prime, p ≡ 1 (mod 4), α ≡ 1 (mod 4), and p ∤ m.
 Reference: Euler's theorem on odd perfect numbers
 -/
 @[category research solved, AMS 11]
-theorem odd_perfect_number.euler_form (n : ℕ) (hn : Odd n) (hp : IsPerfect n) :
+theorem odd_perfect_number.euler_form (n : ℕ) (hn : Odd n) (hp : Perfect n) :
     ∃ (p m : ℕ) (α : ℕ),
       p.Prime ∧
       p ≡ 1 [ZMOD 4] ∧
