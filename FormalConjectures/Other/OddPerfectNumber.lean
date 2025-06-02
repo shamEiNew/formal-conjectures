@@ -38,8 +38,7 @@ open Nat
 The Odd Perfect Number Conjecture states that all perfect numbers are even.
 -/
 @[category research open, AMS 11]
-theorem odd_perfect_number_conjecture :
-    ∀ n, Perfect n → Even n := by
+theorem odd_perfect_number_conjecture (n : ℕ) (hn : Perfect n) : Even n := by
   sorry
 
 /--
@@ -50,7 +49,7 @@ Reference: Pascal Ochem, Michaël Rao (2012). "Odd perfect numbers are greater t
 -/
 @[category research solved, AMS 11]
 theorem odd_perfect_number.lower_bound (n : ℕ) (hn : Odd n) (hp : Perfect n) :
-    n > 10^1500 ∧ (n.primeFactors).card ≥ 101 := by
+    n > 10^1500 ∧ (n.primeFactorsList).length ≥ 101 := by
   sorry
 
 /--
