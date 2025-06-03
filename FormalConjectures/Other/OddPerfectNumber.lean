@@ -64,6 +64,6 @@ theorem odd_perfect_number.euler_form (n : ℕ) (hn : Odd n) (hp : Perfect n) :
       p.Prime ∧
       p ≡ 1 [ZMOD 4] ∧
       α ≡ 1 [ZMOD 4] ∧
-      ¬(p ∣ m) ∧
+      ¬ p ∣ m ∧
       n = p^α * m^2 := by
   sorry
