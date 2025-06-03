@@ -60,7 +60,7 @@ Reference: Euler's theorem on odd perfect numbers
 -/
 @[category research solved, AMS 11]
 theorem odd_perfect_number.euler_form (n : ℕ) (hn : Odd n) (hp : Perfect n) :
-    ∃ (p m : ℕ) (α : ℕ),
+    ∃ (p m α : ℕ),
       p.Prime ∧
       p ≡ 1 [ZMOD 4] ∧
       α ≡ 1 [ZMOD 4] ∧
