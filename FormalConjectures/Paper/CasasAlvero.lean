@@ -33,6 +33,10 @@ The conjecture has been proven for:
 * Degrees of the form 2p^k where p is prime
 
 The conjecture is false in positive characteristic p for polynomials of degree d > p.
+
+The conjecture is now claimed to be proven in this paper:
+* [The Casas-Alvero conjecture for infinitely many degrees](https://arxiv.org/pdf/2505.18000)
+
 -/
 
 open Polynomial
@@ -41,8 +45,8 @@ open Polynomial
 A polynomial P satisfies the Casas-Alvero property if it shares a root with each
 of its derivatives up to order d-1, where d is the degree of P.
 -/
-def HasCasasAlveroProp {R : Type} [Field R] (P : R[X]) : Prop :=
-  ∀ i ∈ Finset.range P.natDegree, ∃ α : R, IsRoot P α ∧ IsRoot (derivative^[i] P) α
+def HasCasasAlveroProp {F : Type} [Field F] (P : F[X]) : Prop :=
+  ∀ i ∈ Finset.range P.natDegree, ∃ α : F, IsRoot P α ∧ IsRoot (derivative^[i] P) α
 
 /--
 The Casas-Alvero conjecture states that in characteristic zero, if a monic polynomial P
