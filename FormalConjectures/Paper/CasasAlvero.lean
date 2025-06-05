@@ -45,7 +45,7 @@ open Polynomial
 A polynomial P satisfies the Casas-Alvero property if it shares a root with each
 of its Hasse derivatives up to order d-1, where d is the degree of P.
 -/
-def HasCasasAlveroProp {K : Type} [Field K] (P : K[X]) : Prop :=
+def HasCasasAlveroProp {K : Type} [Field K] (P : K[X]): Prop :=
   ∀ i ∈ Finset.range P.natDegree, ∃ α : K, IsRoot P α ∧ IsRoot (hasseDeriv i P) α
 
 /--
