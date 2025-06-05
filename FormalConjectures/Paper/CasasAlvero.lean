@@ -88,6 +88,7 @@ theorem casas_alvero_conjecture_coprime {K : Type} [Field K] [CharZero K] (P : K
 /--
 The two versions of the Casas-Alvero conjecture are equivalent.
 -/
+@[category API, AMS 12]
 lemma casas_alvero_conjecture_iff {K : Type} [Field K] [CharZero K] (P : K[X]) (hP : Monic P) :
     (HasCasasAlveroProp P → ∃ α : K, P = (X - C α) ^ P.natDegree) ↔
     (HasCasasAlveroPropCoprime P → ∃ α : K, P = (X - C α) ^ P.natDegree) := by
