@@ -43,10 +43,26 @@ open Polynomial
 
 /--
 A polynomial P satisfies the Casas-Alvero property if it shares a root with each
-of its derivatives up to order d-1, where d is the degree of P.
+of its Hasse derivatives up to order d-1, where d is the degree of P.
 -/
-def HasCasasAlveroProp {F : Type} [Field F] (P : F[X]) : Prop :=
-  ∀ i ∈ Finset.range P.natDegree, ∃ α : F, IsRoot P α ∧ IsRoot (derivative^[i] P) α
+def HasCasasAlveroProp {K : Type} [Field K] (P : K[X]) : Prop :=
+  ∀ i ∈ Finset.range P.natDegree, ∃ α : K, IsRoot P α ∧ IsRoot (hasseDeriv i P) α
+
+/--
+Alternative characterization of the Casas-Alvero property using non-coprimality with derivatives.
+A polynomial has this property if it is not coprime with any of its Hasse derivatives up to
+order d-1, where d is the degree of P.
+-/
+def HasCasasAlveroPropCoprime {K : Type} [Field K] (P : K[X]) : Prop :=
+  ∀ i ∈ Finset.range P.natDegree, ¬ IsCoprime P (hasseDeriv i P)
+
+/--
+The two characterizations of the Casas-Alvero property are equivalent.
+-/
+@[category API, AMS 12]
+lemma casas_alvero_iff_coprime {K : Type} [Field K] (P : K[X]) (hP : Monic P) :
+  HasCasasAlveroProp P ↔ HasCasasAlveroPropCoprime P := by
+  sorry
 
 /--
 The Casas-Alvero conjecture states that in characteristic zero, if a monic polynomial P
@@ -56,6 +72,32 @@ has the Casas-Alvero property, then P = (X - α)^d for some α.
 theorem casas_alvero_conjecture {K : Type} [Field K] [CharZero K] (P : K[X]) (hP : Monic P) :
     HasCasasAlveroProp P → ∃ α : K, P = (X - C α) ^ P.natDegree := by
   sorry
+
+/--
+The Casas-Alvero conjecture (coprimality version) states that in characteristic zero,
+if a monic polynomial P is not coprime with any of its Hasse derivatives up to order d-1,
+then P = (X - α)^d for some α.
+-/
+@[category research open, AMS 12]
+theorem casas_alvero_conjecture_coprime {K : Type} [Field K] [CharZero K] (P : K[X]) (hP : Monic P) :
+    HasCasasAlveroPropCoprime P → ∃ α : K, P = (X - C α) ^ P.natDegree := by
+  intro h
+  apply casas_alvero_conjecture P hP
+  exact (casas_alvero_iff_coprime P hP).mpr h
+
+/--
+The two versions of the Casas-Alvero conjecture are equivalent.
+-/
+lemma casas_alvero_conjecture_iff {K : Type} [Field K] [CharZero K] (P : K[X]) (hP : Monic P) :
+    (HasCasasAlveroProp P → ∃ α : K, P = (X - C α) ^ P.natDegree) ↔
+    (HasCasasAlveroPropCoprime P → ∃ α : K, P = (X - C α) ^ P.natDegree) := by
+  constructor
+  · intro h1 h2
+    apply h1
+    exact (casas_alvero_iff_coprime P hP).mpr h2
+  · intro h1 h2
+    apply h1
+    exact (casas_alvero_iff_coprime P hP).mp h2
 
 /--
 The Casas-Alvero conjecture holds for polynomials of prime power degree.
@@ -89,7 +131,7 @@ Reference: [The Casas-Alvero conjecture for infinitely many degrees](https://arx
 -/
 @[category research solved, AMS 12]
 theorem casas_alvero.positive_char_counterexample {p : ℕ} (hp : p.Prime) :
-    ∃ K : Type, ∃ (_ : Field K) (_ : CharP K p) (d : ℕ) (hd : d > p) (P : K[X]),
-      Monic P ∧ P.natDegree = d ∧ HasCasasAlveroProp P ∧
+    ∃ K : Type, ∃ (_ : Field K) (_ : CharP K p) (P : K[X]) (hd : P.natDegree > p),
+      Monic P ∧ HasCasasAlveroProp P ∧
       ¬∃ α : K, P = (X - C α) ^ P.natDegree := by
   sorry
