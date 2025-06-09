@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -/
 
+import FormalConjectures.ForMathlib.Algebra.Polynomial.HasseDeriv
 import FormalConjectures.Util.ProblemImports
 
 /-!
@@ -25,7 +26,7 @@ import FormalConjectures.Util.ProblemImports
 
 The Casas-Alvero conjecture states that if a univariate polynomial `P` of degree `d` over a field
 of characteristic zero shares a root with each of its derivatives up to order `d-1`, then `P` must
-be of the form `(X - α)^d` for some `α`.
+be of the form `(X - α)ᵈ` for some `α`.
 
 The conjecture has been proven for:
 * Degrees `d ≤ 8`
@@ -68,7 +69,7 @@ theorem HasCasasAlveroPropᵣ.hasCasasAlveroProp (P : K[X])
 theorem HasCasasAlveroProp.map_iff {P : K[X]} :
     HasCasasAlveroProp (P.map f) ↔ HasCasasAlveroProp P := by
   simp_rw [HasCasasAlveroProp]; congr!; · simp
-  sorry -- need `Polynomial.map_hasseDeriv`; `Polynomial.isCoprime_map` already exists
+  rw [hasseDeriv_map, isCoprime_map]
 
 @[category API, AMS 12]
 theorem hasCasasAlveroProp_iffᵣ {P : K[X]} [IsAlgClosed K] :
@@ -106,12 +107,17 @@ lemma casas_alvero_iffᵣ :
   apply map_injective _ (algebraMap K L).injective
   simpa [this] using eq
 
+section conjecture
+
+variable [CharZero K] (P : K[X]) (hP : Monic P)
+include hP
+
 /--
 The Casas-Alvero conjecture states that in characteristic zero, if a monic polynomial `P`
-has the Casas-Alvero property, then `P = (X - α)^d` for some `α`.
+has the Casas-Alvero property, then `P = (X - α)ᵈ` for some `α`.
 -/
 @[category research open, AMS 12]
-theorem casas_alvero_conjecture {K : Type*} [Field K] [CharZero K] (P : K[X]) (hP : Monic P) :
+theorem casas_alvero_conjecture :
     HasCasasAlveroProp P → ∃ α : K, P = (X - C α) ^ P.natDegree := by
   sorry
 
@@ -122,8 +128,7 @@ This was proved by Graf von Bothmer, Labs, Schicho, and van de Woestijne.
 Reference: [The Casas-Alvero conjecture for infinitely many degrees](https://arxiv.org/pdf/math/0605090)
 -/
 @[category research solved, AMS 12]
-theorem casas_alvero.prime_power {K : Type*} [Field K] [CharZero K]
-    (p k : ℕ) (hp : p.Prime) (P : K[X]) (hP : Monic P) (hd : P.natDegree = p^k) :
+theorem casas_alvero.prime_power (p k : ℕ) (hp : p.Prime) (hd : P.natDegree = p^k) :
     HasCasasAlveroProp P → ∃ α : K, P = (X - C α) ^ P.natDegree := by
   sorry
 
@@ -134,10 +139,11 @@ This was proved by Graf von Bothmer, Labs, Schicho, and van de Woestijne.
 Reference: [The Casas-Alvero conjecture for infinitely many degrees](https://arxiv.org/pdf/math/0605090)
 -/
 @[category research solved, AMS 12]
-theorem casas_alvero.double_prime_power {K : Type*} [Field K] [CharZero K]
-    (p k : ℕ) (hp : p.Prime) (P : K[X]) (hP : Monic P) (hd : P.natDegree = 2 * p^k) :
+theorem casas_alvero.double_prime_power (p k : ℕ) (hp : p.Prime) (hd : P.natDegree = 2 * p^k) :
     HasCasasAlveroProp P → ∃ α : K, P = (X - C α) ^ P.natDegree := by
   sorry
+
+end conjecture
 
 /--
 The Casas-Alvero conjecture fails in positive characteristic `p` for polynomials of degree `d > p`.
@@ -147,7 +153,7 @@ Reference: [The Casas-Alvero conjecture for infinitely many degrees](https://arx
 -/
 @[category research solved, AMS 12]
 theorem casas_alvero.positive_char_counterexample {p : ℕ} (hp : p.Prime) :
-    ∃ K : Type*, ∃ (_ : Field K) (_ : CharP K p),
+    ∃ (K : Type*) (_ : Field K) (_ : CharP K p),
       let P := X ^ (p + 1) - X ^ p
       Monic P ∧ HasCasasAlveroProp P ∧
       ¬∃ α : K, P = (X - C α) ^ P.natDegree := by
