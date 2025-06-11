@@ -82,8 +82,8 @@ theorem hasCasasAlveroProp_iffᵣ {P : K[X]} [IsAlgClosed K] :
 
 universe u in
 /--
-The Casas-Alvero property is equivalent to the polynomial not being coprime with any of its
-Hasse derivatives up to order `d-1`.
+Whether we use `HasCasasAlveroProp` or `HasCasasAlveroPropᵣ` to state the Casas-Alvero conjecture,
+we obtain equivalent statements.
 -/
 @[category API, AMS 12]
 lemma casas_alvero_iffᵣ :
@@ -146,7 +146,7 @@ theorem casas_alvero.double_prime_power (p k : ℕ) (hp : p.Prime) (hd : P.natDe
 end conjecture
 
 /--
-The Casas-Alvero conjecture fails in positive characteristic `p` for polynomials of degree `d > p`.
+The Casas-Alvero conjecture fails in positive characteristic `p` for polynomials of degree `p + 1`.
 This was shown by Graf von Bothmer, Labs, Schicho, and van de Woestijne.
 
 Reference: [The Casas-Alvero conjecture for infinitely many degrees](https://arxiv.org/pdf/math/0605090)
