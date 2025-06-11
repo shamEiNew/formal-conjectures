@@ -14,20 +14,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -/
 
-import Lake
-open Lake DSL
+import FormalConjectures.Util.ProblemImports
 
-package formal_conjectures where
-  leanOptions := #[
-    ⟨`pp.unicode.fun, true⟩, -- pretty-prints `fun a ↦ b`
-    ⟨`pp.proofs.withType, false⟩,
-    ⟨`autoImplicit, false⟩,
-    ⟨`relaxedAutoImplicit, false⟩
-  ]
+/-!
+# Andrica's conjecture
 
-@[default_target]
-lean_lib FormalConjectures where
-  roots := #[`FormalConjectures]
-  globs := #[.submodules `FormalConjectures]
+*Reference:* [Wikipedia](https://en.wikipedia.org/wiki/Andrica%27s_conjecture)
+-/
 
-require "leanprover-community" / "mathlib" @ git "v4.17.0"
+/--
+The inequality $\sqrt{p_{n+1}}-\sqrt{p_n} < 1$ holds for all $n$, where $p_n$ is the nth prime number.
+-/
+@[category research open, AMS 11]
+theorem andrica_conjecture (n : ℕ) :
+    Real.sqrt ((n+1).nth Prime) - Real.sqrt (n.nth Prime) < 1 := by
+  sorry
