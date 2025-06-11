@@ -25,15 +25,15 @@ import FormalConjectures.Util.ProblemImports
 * [MathOverflow](https://mathoverflow.net/questions/27851)
 
 The Casas-Alvero conjecture states that if a univariate polynomial `P` of degree `d` over a field
-of characteristic zero shares a root with each of its derivatives up to order `d-1`, then `P` must
-be of the form `(X - α)ᵈ` for some `α`.
+of characteristic zero shares a non-trivial factor with its Hasse derivatives up to order `d-1`,
+then `P` must be of the form `(X - α)ᵈ` for some `α` in the field.
 
 The conjecture has been proven for:
 * Degrees `d ≤ 8`
 * Degrees of the form `p^k` where `p` is prime
 * Degrees of the form `2p^k` where `p` is prime
 
-The conjecture is false in positive characteristic `p` for polynomials of degree `d > p`.
+The conjecture is false in positive characteristic `p` for polynomials of degree `p+1`.
 
 The conjecture is now claimed to be proven in this paper:
 * [Proof of the Casas-Alvero conjecture: Soham Ghosh)](https://arxiv.org/pdf/2501.09272)
@@ -51,10 +51,11 @@ of its Hasse derivatives up to order `d-1`, where `d` is the degree of `P`.
 def HasCasasAlveroProp (P : K[X]) : Prop :=
   ∀ i ∈ Finset.range P.natDegree, ¬ IsCoprime P (P.hasseDeriv i)
 
-/-- An stronger version of the Casas-Alvero property, which requires that the polynomial `P`
+/-- A stronger version of the Casas-Alvero property, which requires that the polynomial `P`
 shares a root with each of its Hasse derivatives up to order `deg P - 1`.
 The subscript `r` indicates "root" in the definition. -/
-def HasCasasAlveroPropᵣ (P : K[X]): Prop :=
+
+def HasCasasAlveroPropᵣ (P : K[X]) : Prop :=
   ∀ i ∈ Finset.range P.natDegree, ∃ α : K, IsRoot P α ∧ IsRoot (P.hasseDeriv i) α
 
 @[category API, AMS 12]
@@ -82,8 +83,8 @@ theorem hasCasasAlveroProp_iffᵣ {P : K[X]} [IsAlgClosed K] :
 
 universe u in
 /--
-Whether we use `HasCasasAlveroProp` or `HasCasasAlveroPropᵣ` to state the Casas-Alvero conjecture,
-we obtain equivalent statements.
+Note that whether we use `HasCasasAlveroProp` or `HasCasasAlveroPropᵣ` to state the Casas-Alvero conjecture,
+we obtain the following equivalent statements.
 -/
 @[category API, AMS 12]
 lemma casas_alvero_iffᵣ :
@@ -117,8 +118,8 @@ The Casas-Alvero conjecture states that in characteristic zero, if a monic polyn
 has the Casas-Alvero property, then `P = (X - α)ᵈ` for some `α`.
 -/
 @[category research open, AMS 12]
-theorem casas_alvero_conjecture :
-    HasCasasAlveroProp P → ∃ α : K, P = (X - C α) ^ P.natDegree := by
+theorem casas_alvero_conjecture (hP' : HasCasasAlveroProp P) :
+    ∃ α : K, P = (X - C α) ^ P.natDegree := by
   sorry
 
 /--
@@ -128,8 +129,8 @@ This was proved by Graf von Bothmer, Labs, Schicho, and van de Woestijne.
 Reference: [The Casas-Alvero conjecture for infinitely many degrees](https://arxiv.org/pdf/math/0605090)
 -/
 @[category research solved, AMS 12]
-theorem casas_alvero.prime_power (p k : ℕ) (hp : p.Prime) (hd : P.natDegree = p^k) :
-    HasCasasAlveroProp P → ∃ α : K, P = (X - C α) ^ P.natDegree := by
+theorem casas_alvero.prime_power (p k : ℕ) (hp : p.Prime) (hd : P.natDegree = p^k)
+(hP' : HasCasasAlveroProp P) : ∃ α : K, P = (X - C α) ^ P.natDegree := by
   sorry
 
 /--
@@ -139,8 +140,8 @@ This was proved by Graf von Bothmer, Labs, Schicho, and van de Woestijne.
 Reference: [The Casas-Alvero conjecture for infinitely many degrees](https://arxiv.org/pdf/math/0605090)
 -/
 @[category research solved, AMS 12]
-theorem casas_alvero.double_prime_power (p k : ℕ) (hp : p.Prime) (hd : P.natDegree = 2 * p^k) :
-    HasCasasAlveroProp P → ∃ α : K, P = (X - C α) ^ P.natDegree := by
+theorem casas_alvero.double_prime_power (p k : ℕ) (hp : p.Prime) (hd : P.natDegree = 2 * p^k)
+    (hP' : HasCasasAlveroProp P) : ∃ α : K, P = (X - C α) ^ P.natDegree := by
   sorry
 
 end conjecture
