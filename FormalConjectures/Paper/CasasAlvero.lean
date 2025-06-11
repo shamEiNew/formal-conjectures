@@ -59,7 +59,7 @@ def HasCasasAlveroPropᵣ (P : K[X]) : Prop :=
   ∀ i ∈ Finset.range P.natDegree, ∃ α : K, IsRoot P α ∧ IsRoot (P.hasseDeriv i) α
 
 @[category API, AMS 12]
-theorem HasCasasAlveroPropᵣ.hasCasasAlveroProp (P : K[X])
+theorem HasCasasAlveroPropᵣ.hasCasasAlveroProp {P : K[X]}
     (hca : HasCasasAlveroPropᵣ P) : HasCasasAlveroProp P := by
   intro i hi coprime
   simp_rw [HasCasasAlveroPropᵣ, ← dvd_iff_isRoot] at hca
