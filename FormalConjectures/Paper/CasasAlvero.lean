@@ -130,7 +130,7 @@ Reference: [The Casas-Alvero conjecture for infinitely many degrees](https://arx
 -/
 @[category research solved, AMS 12]
 theorem casas_alvero.prime_power (p k : ℕ) (hp : p.Prime) (hd : P.natDegree = p^k)
-(hP' : HasCasasAlveroProp P) : ∃ α : K, P = (X - C α) ^ P.natDegree := by
+    (hP' : HasCasasAlveroProp P) : ∃ α : K, P = (X - C α) ^ P.natDegree := by
   sorry
 
 /--
