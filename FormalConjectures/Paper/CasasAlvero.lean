@@ -75,7 +75,7 @@ theorem HasCasasAlveroProp.map_iff {P : K[X]} :
 @[category API, AMS 12]
 theorem hasCasasAlveroProp_iffᵣ {P : K[X]} [IsAlgClosed K] :
     HasCasasAlveroProp P ↔ HasCasasAlveroPropᵣ P := by
-  refine ⟨?_, HasCasasAlveroPropᵣ.hasCasasAlveroProp _⟩
+  refine ⟨?_, HasCasasAlveroPropᵣ.hasCasasAlveroProp⟩
   simp_rw [HasCasasAlveroProp, HasCasasAlveroPropᵣ,
     isCoprime_iff_aeval_ne_zero_of_isAlgClosed K K, coe_aeval_eq_eval]
   push_neg
