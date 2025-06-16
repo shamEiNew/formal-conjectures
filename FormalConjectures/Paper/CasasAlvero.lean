@@ -69,8 +69,10 @@ theorem HasCasasAlveroPropᵣ.hasCasasAlveroProp {P : K[X]}
 @[category API, AMS 12]
 theorem HasCasasAlveroProp.map_iff {P : K[X]} :
     HasCasasAlveroProp (P.map f) ↔ HasCasasAlveroProp P := by
-  simp_rw [HasCasasAlveroProp]; congr!; · simp
-  rw [hasseDeriv_map, isCoprime_map]
+  simp_rw [HasCasasAlveroProp]
+  congr!
+  · exact natDegree_map _
+  · rw [hasseDeriv_map, isCoprime_map]
 
 @[category API, AMS 12]
 theorem hasCasasAlveroProp_iffᵣ {P : K[X]} [IsAlgClosed K] :
