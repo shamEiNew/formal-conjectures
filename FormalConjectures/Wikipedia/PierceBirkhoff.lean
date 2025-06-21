@@ -16,24 +16,6 @@ limitations under the License.
 
 import FormalConjectures.Util.ProblemImports
 
-/--
-A set is semi-algebraic if it can be described by a finite boolean combination
-of polynomial equations and inequalities.
--/
-def IsSemiAlgebraic {n : ℕ} (S : Set (EuclideanSpace ℝ (Fin n))) : Prop :=
-  ∃ (ι : Type) (hι : Fintype ι) (p : ι → MvPolynomial (Fin n) ℝ),
-    S = {x | ∃ i, MvPolynomial.eval x (p i) = 0} ∨
-    S = {x | ∃ i, MvPolynomial.eval x (p i) > 0}
-
-/--
-A set is semi-algebraic if it can be described by a finite boolean combination
-of polynomial equations and inequalities.
--/
-def IsSemiAlgebraic₁ (S : Set ℝ) : Prop :=
-  ∃ (ι : Type) (hι : Fintype ι) (p : ι → Polynomial ℝ),
-    S = {x | ∃ (i : ι), Polynomial.eval x (p i) = 0} ∨
-    S = {x | ∃ (i : ι), Polynomial.eval x (p i) > 0}
-
 /-!
 # Pierce–Birkhoff conjecture
 
@@ -47,6 +29,25 @@ Melvin Henriksen and John R. Isbell.
 The conjecture has been proved for `n = 1` and `n = 2` by Louis Mahé.
 -/
 
+/--
+A set is semi-algebraic in `ℝⁿ` if it can be described by a finite boolean combination
+of multivariate polynomial equations and inequalities.
+-/
+def IsSemiAlgebraic {n : ℕ} (S : Set (EuclideanSpace ℝ (Fin n))) : Prop :=
+  ∃ (ι : Type) (p : ι → MvPolynomial (Fin n) ℝ),
+    S = {x | ∃ i, MvPolynomial.eval x (p i) = 0} ∪ {x | ∃ i, MvPolynomial.eval x (p i) > 0}
+
+/--
+A set is semi-algebraic in `ℝ` if it can be described by a finite boolean combination
+of polynomial equations and inequalities.
+-/
+def IsSemiAlgebraic₁ (S : Set ℝ) : Prop :=
+  ∃ (ι : Type) (p : ι → Polynomial ℝ),
+    S = {x | ∃ (i : ι), Polynomial.eval x (p i) = 0} ∪
+    {x | ∃ (i : ι), Polynomial.eval x (p i) > 0}
+
+
+
 open scoped Polynomial
 
 /--
@@ -54,7 +55,7 @@ A function `f : ℝⁿ → ℝ` is piecewise polynomial if there exists a finite
 closed semi-algebraic sets such that the restriction of `f` to each set in the covering is polynomial.
 -/
 def IsPiecewisePolynomial {n : ℕ} (f : EuclideanSpace ℝ (Fin n) → ℝ) : Prop :=
-  ∃ (ι : Type) (hι : Fintype ι) (P : ι → Set (EuclideanSpace ℝ (Fin n)))
+  ∃ (ι : Type) (P : ι → Set (EuclideanSpace ℝ (Fin n)))
     (g : ι → MvPolynomial (Fin n) ℝ),
     (∀ i, IsClosed (P i)) ∧
     (∀ i, IsSemiAlgebraic (P i)) ∧
@@ -66,7 +67,7 @@ A function `f : ℝ → ℝ` is piecewise polynomial if there exists a finite co
 closed semi-algebraic sets such that the restriction of `f` to each set in the covering is polynomial.
 -/
 def IsPiecewisePolynomial₁ (f : ℝ → ℝ) : Prop :=
-  ∃ (ι : Type) (hι : Fintype ι) (P : ι → Set ℝ)
+  ∃ (ι : Type) (P : ι → Set ℝ)
     (g : ι → Polynomial ℝ),
     (∀ (i : ι), IsClosed (P i)) ∧
     (∀ (i : ι), IsSemiAlgebraic₁ (P i)) ∧
